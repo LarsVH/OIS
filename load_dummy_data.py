@@ -146,6 +146,8 @@ pittsburgh_usa = add_town("Pittsburgh", "Pennsylvania", 15100)
 frederiksberg_dk = add_town("Frederiksberg", "Seeland" ,"Denmark", 0)
 rotterdam_nl = add_town("Rotterdam","Zuid-Holland" ,"Netherlands", 3000)
 boston_usa = add_town("Boston", "Massachusetts", 0200)
+winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
+kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 
 
 # Persons
@@ -232,6 +234,19 @@ add_ancestor(johnpatrick,jmccarthey)
 add_ancestor(idaglattmccarthy, jmccarthey)
 #---
 
+nwirth = add_person("Niklaus", "Wirth")
+nwirth.sex = 'male'
+nwirth.nationality = "Swiss"
+nwirth.birthday = datetime(1934,2,15)
+nwirth.birthplace = winterthur_ch
+
+
+ahejlsberg = add_person("Anders", "Hejlsberg")
+ahejlsberg.sex = 'male'
+ahejlsberg.nationality = "Danish"
+ahejlsberg.birthday = datetime(1960, 12, 1)
+ahejlsberg.birthplace = kobenhavn_dk
+
 
 # Institutions
 #-----------------------------------------------------------------------------
@@ -251,11 +266,19 @@ uamsterdam = add_institution("University of Amsterdam", 'academic')
 caltech = add_institution("California Institute of Technology", 'academic')
 princentonu = add_institution("Princeton University New Jersey", 'academic')
 stanford = add_institution("Stanford University", 'academic')
+eth = add_institution("ETH Zurich", 'academic')
+lavalcandada = add_institution("Universite Laval Canada", 'academic')
+calberkely = add_institution("University of California Berkeley", 'academic')
+caldiego = add_institution("University of California San Diego", 'academic')
 
 
 # Commercial
 #-----------------------------------------------------------------------------
 ibm = add_institution("IBM", 'commercial')
+xerox_parc = add_institution("Xerox Palo Alto Research Center", 'commercial')
+softech = add_institution("SofTech Inc", 'commercial')
+borlandsoft = add_institution("Borland Software Company", 'commercial')
+microsoft = add_institution("Microsoft", 'commercial')
 
 # Public
 #-----------------------------------------------------------------------------
@@ -281,6 +304,9 @@ add_graduation(avanwijngaarden, tudelft, 1939)
 add_graduation(jmccarthey, caltech, 1948)
 add_graduation(jmccarthey, princentonu, 1951)
 
+add_graduation(nwirth, eth, 1959)
+add_graduation(nwirth, lavalcandada, 1959)
+add_graduation(nwirth, calberkely, 1963)
 
 # Employments
 add_employment(fbauer,tumunchen, 1963)
@@ -296,6 +322,13 @@ add_employment(pnaur, regnecentralendk, 1959)
 add_employment(avanwijngaarden, uamsterdam, 1947)
 
 add_employment(jmccarthey, stanford, 1962)
+
+add_employment(nwirth, stanford, 1963)
+add_employment(nwirth, eth, 1968)
+add_employment(nwirth, xerox_parc, 1976)
+
+add_employment(ahejlsberg, borlandsoft, 1989)
+add_employment(ahejlsberg, microsoft, 1996)
 
 # Awards
 #---------------------------------------------------------
@@ -315,6 +348,8 @@ add_award(avanwijngaarden, "IEEE Computer Pioneer Award", 1986)
 
 add_award(jmccarthey, "ACM Turing Award", 1971)
 add_award(jmccarthey, "IEEE Computer Pioneer Award", 1985)
+
+add_award(nwirth, "ACM Turing Award", 1984)
 
 
 # Languages
@@ -377,6 +412,36 @@ add_influence(C, algol)
 
 # Pascal
 pascal = add_language("Pascal", datetime(1970,1,1))
+
+add_designer(pascal, nwirth, 1)
+
+## implementations
+hppascal = add_implementation(pascal, "HPPascal")
+freepascal = add_implementation(pascal, "FreePascal")
+ibmsys370 = add_implementation(pascal, "IBMSystem370")
+add_imp_designer(ibmsys370, ibm, 1)
+
+## dialects
+turbopascal = add_language("Turbo Pascal", datetime(1983,1,1), dialect_of=pascal)
+add_designer(turbopascal, ahejlsberg, 1)
+add_designer(turbopascal, ahejlsberg, 2)
+add_designer(turbopascal, borlandsoft, 2)
+
+ucsdpascal = add_language("UCSD Pascal", datetime(1978,1,1), dialect_of=pascal)
+add_designer(ucsdpascal, caldiego, 1)
+add_designer(ucsdpascal, caldiego, 2)
+add_designer(ucsdpascal, softech, 2)
+add_designer(ucsdpascal, caldiego, 4)
+add_designer(ucsdpascal, softech, 4)
+
+# implementation of ucsdpascal
+pascalp = add_implementation(ucsdpascal, "Pascal-P")
+add_imp_designer(pascalp, caldiego, 1 )
+add_imp_designer(pascalp, caldiego, 2 )
+add_imp_designer(pascalp, softech, 2)
+add_imp_designer(pascalp, caldiego, 4 )
+add_imp_designer(pascalp, softech, 4)
+
 
 add_influence(pascal, algol)
 
