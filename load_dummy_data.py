@@ -434,7 +434,7 @@ add_designer(ucsdpascal, softech, 2)
 add_designer(ucsdpascal, caldiego, 4)
 add_designer(ucsdpascal, softech, 4)
 
-# implementation of ucsdpascal
+### implementation of ucsdpascal
 pascalp = add_implementation(ucsdpascal, "Pascal-P")
 add_imp_designer(pascalp, caldiego, 1 )
 add_imp_designer(pascalp, caldiego, 2 )
@@ -442,7 +442,7 @@ add_imp_designer(pascalp, softech, 2)
 add_imp_designer(pascalp, caldiego, 4 )
 add_imp_designer(pascalp, softech, 4)
 
-
+## influence
 add_influence(pascal, algol)
 
 # CPL
