@@ -24,7 +24,6 @@ class Institution(db.Model):
     __tablename__ = "Institution"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
-    # TODO: types
     type = db.Column(db.Enum('academic', 'commercial', 'public', name='institution_type'))
 
     def __init__(self, name, type):
@@ -52,7 +51,7 @@ class ProgrammingLanguage(db.Model):
     institutions = db.relationship("DesignedByInstitution",
                                    backref="programming_language")
 
-    follows = db.relationship("Paradigm", secondary=FollowsParadigm)
+    paradigms = db.relationship("Paradigm", secondary=FollowsParadigm)
     disciplines = db.relationship("TypingDiscipline", secondary=HasTypingDiscipline)
 
     def __init__(self, name, date, dialect_of=None):
@@ -77,6 +76,7 @@ class Person(db.Model):
     birthplace_id = db.Column(db.Integer, db.ForeignKey('Town.id'))
     birthplace = db.relationship("Town")
 
+    # TODO: constraints op deze relatie
     parents = db.relation("Person", secondary=Ancestor,
                           primaryjoin=Ancestor.c.Child == id,
                           secondaryjoin=Ancestor.c.Parent == id,
@@ -114,7 +114,7 @@ class Town(db.Model):
     __tablename__ = "Town"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
-    postalCode = db.Column(db.String(256))
+    postal_code = db.Column(db.String(256))
     country = db.Column(db.String(256))
     state = db.Column(db.String(256))
 
@@ -131,7 +131,7 @@ class Graduation(db.Model):
     institution_id = db.Column(
         db.Integer, db.ForeignKey('Institution.id'), primary_key=True)
     year = db.Column(db.Integer)
-    person = db.relationship("Institution")
+    institution = db.relationship("Institution")
 
 
 # TODO: relationship met Person toevoegen
@@ -222,6 +222,12 @@ class Address(db.Model):
     town_id = db.Column(db.Integer, db.ForeignKey("Town.id"))
     street = db.Column(db.String(256))
     number = db.Column(db.String(256)) # String want PO boxes etc
+
+    def __init__(self, person_id, town_id, street, number):
+        self.person_id = person_id
+        self.town_id = town_id
+        self.street = street
+        self.number = number
 
 
 # TODO: Relationship met Implementation/Person toevoegen?
