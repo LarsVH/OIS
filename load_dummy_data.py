@@ -330,7 +330,7 @@ sunms = add_institution("Sun Microsystems", 'commercial')
 oracle = add_institution("Oracle Corporation", 'commercial')
 google = add_institution("Google", 'commercial')
 pythonsoftfound = add_institution("Python Software Foundation", 'commercial')
-
+apple = add_institution("Apple Inc.", 'commercial')
 
 # Public
 #-----------------------------------------------------------------------------
@@ -426,6 +426,7 @@ dynamic = create_typing("dynamic")
 safe = create_typing("safe")
 nominative = create_typing("nominative")
 manifest = create_typing("manifest")
+inferred = create_typing("inferred")
 
 
 # Paradigms
@@ -436,6 +437,7 @@ imp = create_paradigm("imperative")
 struct = create_paradigm("structured")
 modular = create_paradigm("modular")
 reflective = create_paradigm("reflective")
+block = create_paradigm("block structured")
 
 # C
 C = add_language("C", datetime(1970, 1, 1))
@@ -625,6 +627,17 @@ add_influence(python, algol)
 add_influence(python, cpp)
 add_influence(python, java)
 add_influence(python, modula3)
+
+
+# Swift
+swift = add_language("Swift", datetime(2014,9,9))
+add_typing(swift, static)
+add_typing(swift, strong)
+add_typing(swift, inferred)
+add_paradigm(swift, oop)
+add_paradigm(swift, fp)
+add_paradigm(swift, block)
+add_designer(swift, apple, 1)
 
 
 # Ready to commit? I hope you are
