@@ -279,6 +279,9 @@ xerox_parc = add_institution("Xerox Palo Alto Research Center", 'commercial')
 softech = add_institution("SofTech Inc", 'commercial')
 borlandsoft = add_institution("Borland Software Company", 'commercial')
 microsoft = add_institution("Microsoft", 'commercial')
+decresearch = add_institution("DEC Systems Research Center SRC", 'commercial')
+acornresearch = add_institution("Acorn Research Center", 'commercial')
+olivetti = add_institution("Olivetti", 'commercial')
 
 # Public
 #-----------------------------------------------------------------------------
@@ -360,6 +363,7 @@ strong = create_typing("strong")
 weak = create_typing("weak")
 static = create_typing("static")
 dynamic = create_typing("dynamic")
+safe = create_typing("safe")
 
 
 # Paradigms
@@ -368,8 +372,7 @@ fp = create_paradigm("functional")
 proc = create_paradigm("procedural")
 imp = create_paradigm("imperative")
 struct = create_paradigm("structured")
-
-
+modular = create_paradigm("modular")
 
 
 # C
@@ -409,7 +412,6 @@ add_paradigm(algol, struct)
 add_influence(C, algol)
 
 
-
 # Pascal
 pascal = add_language("Pascal", datetime(1970,1,1))
 
@@ -447,9 +449,55 @@ add_influence(pascal, algol)
 
 # CPL
 cpl = add_language("CPL", datetime(1963,1,1))
-
+# TODO
 
 add_influence(cpl, algol)
+
+# Modula
+modula = add_language("Modula", datetime(1975,1,1))
+add_designer(modula, nwirth, 1)
+add_typing(modula, strong)
+add_influence(modula, pascal)
+
+modula2 = add_language("Modula-2", datetime(1978,1,1))
+add_designer(modula2, nwirth, 1)
+add_typing(modula, strong)
+add_typing(modula, static)
+add_paradigm(modula2, imp)
+add_paradigm(modula2, struct)
+add_paradigm(modula2, modular)
+add_influence(modula2, algol)
+add_influence(modula2, pascal)
+add_influence(modula2, modula)
+
+modula25 = add_language("Modula-2+", datetime(1980,1,1))
+add_designer(modula25, decresearch, 1)
+add_designer(modula25, acornresearch, 1)
+add_typing(modula25, strong)
+add_typing(modula25, static)
+add_paradigm(modula25, imp)
+add_paradigm(modula25, struct)
+add_paradigm(modula25, modular)
+add_influence(modula25, algol)
+add_influence(modula25, pascal)
+add_influence(modula25, modula2)
+
+modula3 = add_language("Modula-3", datetime(1980,1,1))
+add_designer(modula3, decresearch, 1)
+add_designer(modula3, olivetti, 1)
+add_typing(modula3, strong)
+add_typing(modula3, static)
+add_typing(modula3, safe)
+add_paradigm(modula3, imp)
+add_paradigm(modula3, struct)
+add_paradigm(modula3, modular)
+add_paradigm(modula3, proc)
+add_influence(modula3, algol)
+add_influence(modula3, pascal)
+add_influence(modula3, modula2)
+add_influence(modula3, modula25)
+
+
 
 # Ready to commit? I hope you are
 db.session.commit()
