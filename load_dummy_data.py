@@ -149,7 +149,7 @@ boston_usa = add_town("Boston", "Massachusetts", 0200)
 winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
 kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
-
+calgary_ca = add_town("Calgary", "Alberta", "Canada")
 
 # Persons
 dritchie = add_person("Dennis", "Ritchie")
@@ -273,7 +273,13 @@ sirhenrystrachey.deathday = datetime(1810,1,3)
 add_ancestor(richardstrachey, chstrachey)
 add_ancestor(edwardstrachey, richardstrachey)
 add_ancestor(sirhenrystrachey, edwardstrachey)
+#--
 
+jgosling = add_person("James", "Gosling")
+jgosling.sex = 'male'
+jgosling.nationality = "Canadian"
+jgosling.birthday = datetime(1955,5,19)
+jgosling.birtplace = calgary_ca
 
 # Institutions
 #-----------------------------------------------------------------------------
@@ -299,6 +305,7 @@ calberkely = add_institution("University of California Berkeley", 'academic')
 caldiego = add_institution("University of California San Diego", 'academic')
 cambridge = add_institution("University of Cambridge", 'academic')
 oxford = add_institution("University of Oxford", 'academic')
+calgaryu = add_institution("Calgary University", 'academic')
 
 # Commercial
 #-----------------------------------------------------------------------------
@@ -310,6 +317,10 @@ microsoft = add_institution("Microsoft", 'commercial')
 decresearch = add_institution("DEC Systems Research Center SRC", 'commercial')
 acornresearch = add_institution("Acorn Research Center", 'commercial')
 olivetti = add_institution("Olivetti", 'commercial')
+sunms = add_institution("Sun Microsystems", 'commercial')
+oracle = add_institution("Oracle Corporation", 'commercial')
+google = add_institution("Google", "commercial")
+
 
 # Public
 #-----------------------------------------------------------------------------
@@ -341,6 +352,9 @@ add_graduation(nwirth, calberkely, 1963)
 
 add_graduation(chstrachey, cambridge, 1935)
 
+add_graduation(jgosling, calgaryu, 1977)
+add_graduation(jgosling, carnegiemellon, 1983)
+
 # Employments
 add_employment(fbauer,tumunchen, 1963)
 add_employment(fbauer, tumunchen, 1972)
@@ -365,6 +379,9 @@ add_employment(ahejlsberg, microsoft, 1996)
 
 add_employment(chstrachey, cambridge, 1962)
 add_employment(chstrachey, oxford, 1965)
+
+add_employment(jgosling, sunms, 1984)
+add_employment(jgosling, google, 2011)
 
 # Awards
 #---------------------------------------------------------
@@ -397,6 +414,8 @@ weak = create_typing("weak")
 static = create_typing("static")
 dynamic = create_typing("dynamic")
 safe = create_typing("safe")
+nominative = create_typing("nominative")
+manifest = create_typing("manifest")
 
 
 # Paradigms
@@ -539,6 +558,44 @@ add_influence(modula3, pascal)
 add_influence(modula3, modula2)
 add_influence(modula3, modula25)
 
+# Java
+java = add_language("Java", datetime(1995,1,1))
+add_typing(java, static)
+add_typing(java, strong)
+add_typing(java, safe)
+add_typing(java, nominative)
+add_typing(java, manifest)
+
+add_designer(java, jgosling, 10)
+add_designer(java, jgosling, 11)
+add_designer(java, jgosling, 12)
+add_designer(java, jgosling, 13)
+add_designer(java, jgosling, 14)
+add_designer(java, jgosling, 50)
+add_designer(java, jgosling, 60)
+add_designer(java, jgosling, 70)
+
+add_designer(java, sunms, 10)
+add_designer(java, sunms, 11)
+add_designer(java, sunms, 12)
+add_designer(java, sunms, 13)
+add_designer(java, sunms, 14)
+add_designer(java, sunms, 50)
+add_designer(java, sunms, 60)
+add_designer(java, sunms, 70)
+
+add_designer(java, oracle, 80)
+add_designer(java, oracle, 90)
+add_designer(java, oracle, 100)
+
+openjdk = add_implementation(java, "OpenJDK")
+add_imp_designer(openjdk, sunms, 60)
+add_imp_designer(openjdk, sunms, 70)
+add_imp_designer(openjdk, oracle, 80)
+
+add_influence(java, modula3)
+add_influence(java, cpp)
+add_influence(java, ucsdpascal)
 
 
 # Ready to commit? I hope you are
