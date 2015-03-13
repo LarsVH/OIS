@@ -158,7 +158,7 @@ kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
 calgary_ca = add_town("Calgary", "Alberta", "Canada", "T1Y")
 haarlem_nl = add_town("Haarlem", "Noord-Holland", 2000)
-
+nyc_usa = add_town("New York City", "New York", 10000)
 
 # Persons
 dritchie = add_person("Dennis", "Ritchie")
@@ -296,6 +296,35 @@ gvanrossum.nationality = "Dutch"
 gvanrossum.birthday = datetime(1956,1,31)
 gvanrossum.birthplace = haarlem_nl
 
+# Jean E. Sammet family
+jsammet = add_person("Jean E.", "Sammet")
+jsammet.sex = 'female'
+jsammet.nationality = "American"
+jsammet.birthday = datetime(1928,3,23)
+jsammet.birthplace = nyc_usa
+
+## father
+harrysammet = add_person("Harry", "Sammet")
+harrysammet.sex = 'male'
+harrysammet.nationality = "American"
+
+## mother
+ruthsammet = add_person("Ruth", "Sammet")
+ruthsammet.sex = 'female'
+ruthsammet.nationality = "American"
+
+## sister
+helensammet = add_person("Helen", "Sammet")
+helensammet.sex = 'female'
+helensammet.nationality = "American"
+
+add_ancestor(harrysammet, jsammet)
+add_ancestor(ruthsammet, jsammet)
+add_ancestor(harrysammet, helensammet)
+add_ancestor(ruthsammet, helensammet)
+
+
+#--
 
 # Institutions
 #-----------------------------------------------------------------------------
@@ -446,21 +475,6 @@ modular = create_paradigm("modular")
 reflective = create_paradigm("reflective")
 block = create_paradigm("block structured")
 
-# C
-C = add_language("C", datetime(1970, 1, 1))
-add_designer(C, dritchie, 1)
-add_typing(C, static)
-add_typing(C, strong)
-add_paradigm(C, imp)
-
-# C++
-cpp = add_language("C++", datetime(1979, 1, 1))
-add_designer(cpp, bjarne, 1)
-add_typing(cpp, static)
-add_typing(cpp, strong)
-add_influence(cpp, C)
-add_paradigm(cpp, imp)
-add_paradigm(cpp, oop)
 
 # Algol
 algol = add_language("ALGOL", datetime(1958, 1, 1))
@@ -480,7 +494,34 @@ add_paradigm(algol, proc)
 add_paradigm(algol, imp)
 add_paradigm(algol, struct)
 
+# C
+C = add_language("C", datetime(1970, 1, 1))
+add_designer(C, dritchie, 1)
+add_typing(C, static)
+add_typing(C, strong)
+add_paradigm(C, imp)
+
 add_influence(C, algol)
+
+# C++
+cpp = add_language("C++", datetime(1979, 1, 1))
+add_designer(cpp, bjarne, 1)
+add_typing(cpp, static)
+add_typing(cpp, strong)
+add_influence(cpp, C)
+add_paradigm(cpp, imp)
+add_paradigm(cpp, oop)
+
+# Cobol
+cobol = add_language("Cobol", datetime(1959,1,1))
+add_typing(cobol, weak)
+add_typing(cobol, static)
+add_paradigm(cobol, proc)
+add_paradigm(cobol, imp)
+add_paradigm(cobol, oop)
+add_designer(cobol, jsammet, 1)
+
+add_influence(cobol, cpp)
 
 # Pascal
 pascal = add_language("Pascal", datetime(1970,1,1))
@@ -634,6 +675,7 @@ add_influence(python, algol)
 add_influence(python, cpp)
 add_influence(python, java)
 add_influence(python, modula3)
+add_influence(python, C)
 
 
 # Swift
@@ -646,6 +688,7 @@ add_paradigm(swift, fp)
 add_paradigm(swift, block)
 add_designer(swift, apple, 1)
 
+add_influence(swift, python)
 
 # Ready to commit? I hope you are
 db.session.commit()
