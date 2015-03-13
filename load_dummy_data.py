@@ -157,6 +157,8 @@ winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
 kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
 calgary_ca = add_town("Calgary", "Alberta", "Canada", "T1Y")
+haarlem_nl = add_town("Haarlem", "Noord-Holland", 2000)
+
 
 # Persons
 dritchie = add_person("Dennis", "Ritchie")
@@ -288,6 +290,13 @@ jgosling.nationality = "Canadian"
 jgosling.birthday = datetime(1955,5,19)
 jgosling.birtplace = calgary_ca
 
+gvanrossum = add_person("Guido", "van Rossum")
+gvanrossum.sex = 'male'
+gvanrossum.nationality = "Dutch"
+gvanrossum.birthday = datetime(1956,1,31)
+gvanrossum.birthplace = haarlem_nl
+
+
 # Institutions
 #-----------------------------------------------------------------------------
 # Academic
@@ -326,8 +335,9 @@ acornresearch = add_institution("Acorn Research Center", 'commercial')
 olivetti = add_institution("Olivetti", 'commercial')
 sunms = add_institution("Sun Microsystems", 'commercial')
 oracle = add_institution("Oracle Corporation", 'commercial')
-google = add_institution("Google", "commercial")
-
+google = add_institution("Google", 'commercial')
+pythonsoftfound = add_institution("Python Software Foundation", 'commercial')
+apple = add_institution("Apple Inc.", 'commercial')
 
 # Public
 #-----------------------------------------------------------------------------
@@ -423,6 +433,7 @@ dynamic = create_typing("dynamic")
 safe = create_typing("safe")
 nominative = create_typing("nominative")
 manifest = create_typing("manifest")
+inferred = create_typing("inferred")
 
 
 # Paradigms
@@ -432,7 +443,8 @@ proc = create_paradigm("procedural")
 imp = create_paradigm("imperative")
 struct = create_paradigm("structured")
 modular = create_paradigm("modular")
-
+reflective = create_paradigm("reflective")
+block = create_paradigm("block structured")
 
 # C
 C = add_language("C", datetime(1970, 1, 1))
@@ -603,6 +615,36 @@ add_imp_designer(openjdk, oracle, 80)
 add_influence(java, modula3)
 add_influence(java, cpp)
 add_influence(java, ucsdpascal)
+
+# Python
+python = add_language("Python", datetime(1991,1,1))
+add_typing(python, duck)
+add_typing(python, dynamic)
+add_typing(python, strong)
+add_paradigm(python, oop)
+add_paradigm(python, imp)
+add_paradigm(python, fp)
+add_paradigm(python, reflective)
+add_designer(python, gvanrossum, 2)
+add_designer(python, pythonsoftfound, 2)
+add_designer(python, gvanrossum, 3)
+add_designer(python, pythonsoftfound, 3)
+
+add_influence(python, algol)
+add_influence(python, cpp)
+add_influence(python, java)
+add_influence(python, modula3)
+
+
+# Swift
+swift = add_language("Swift", datetime(2014,9,9))
+add_typing(swift, static)
+add_typing(swift, strong)
+add_typing(swift, inferred)
+add_paradigm(swift, oop)
+add_paradigm(swift, fp)
+add_paradigm(swift, block)
+add_designer(swift, apple, 1)
 
 
 # Ready to commit? I hope you are
