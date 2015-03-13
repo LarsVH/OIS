@@ -148,6 +148,7 @@ rotterdam_nl = add_town("Rotterdam","Zuid-Holland" ,"Netherlands", 3000)
 boston_usa = add_town("Boston", "Massachusetts", 0200)
 winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
 kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
+hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
 
 
 # Persons
@@ -240,12 +241,38 @@ nwirth.nationality = "Swiss"
 nwirth.birthday = datetime(1934,2,15)
 nwirth.birthplace = winterthur_ch
 
-
 ahejlsberg = add_person("Anders", "Hejlsberg")
 ahejlsberg.sex = 'male'
 ahejlsberg.nationality = "Danish"
-ahejlsberg.birthday = datetime(1960, 12, 1)
+ahejlsberg.birthday = datetime(1960,12,1)
 ahejlsberg.birthplace = kobenhavn_dk
+
+# Christopher Strachey Family
+chstrachey = add_person("Christopher S.", "Strachey")
+chstrachey.sex = 'male'
+chstrachey.nationality = "British"
+chstrachey.birthday = datetime(1916,11,16)
+chstrachey.birthplace = hampstead_uk
+chstrachey.deathday = datetime(1975,5,18)
+
+richardstrachey = add_person("Richard", "Strachey")
+richardstrachey.sex = 'male'
+richardstrachey.nationality = "British"
+richardstrachey.birthday = datetime(1817,7,24)
+
+edwardstrachey = add_person("Edward", "Strachey")
+edwardstrachey.sex = 'male'
+edwardstrachey.nationality = "British"
+
+sirhenrystrachey = add_person("Sir Henry", "Strachey 1st Baronet")
+sirhenrystrachey.sex = 'male'
+sirhenrystrachey.nationality = "British"
+sirhenrystrachey.birthday = datetime(1737,5,23)
+sirhenrystrachey.deathday = datetime(1810,1,3)
+
+add_ancestor(richardstrachey, chstrachey)
+add_ancestor(edwardstrachey, richardstrachey)
+add_ancestor(sirhenrystrachey, edwardstrachey)
 
 
 # Institutions
@@ -270,7 +297,8 @@ eth = add_institution("ETH Zurich", 'academic')
 lavalcandada = add_institution("Universite Laval Canada", 'academic')
 calberkely = add_institution("University of California Berkeley", 'academic')
 caldiego = add_institution("University of California San Diego", 'academic')
-
+cambridge = add_institution("University of Cambridge", 'academic')
+oxford = add_institution("University of Oxford", 'academic')
 
 # Commercial
 #-----------------------------------------------------------------------------
@@ -311,6 +339,8 @@ add_graduation(nwirth, eth, 1959)
 add_graduation(nwirth, lavalcandada, 1959)
 add_graduation(nwirth, calberkely, 1963)
 
+add_graduation(chstrachey, cambridge, 1935)
+
 # Employments
 add_employment(fbauer,tumunchen, 1963)
 add_employment(fbauer, tumunchen, 1972)
@@ -332,6 +362,9 @@ add_employment(nwirth, xerox_parc, 1976)
 
 add_employment(ahejlsberg, borlandsoft, 1989)
 add_employment(ahejlsberg, microsoft, 1996)
+
+add_employment(chstrachey, cambridge, 1962)
+add_employment(chstrachey, oxford, 1965)
 
 # Awards
 #---------------------------------------------------------
@@ -411,9 +444,14 @@ add_paradigm(algol, struct)
 
 add_influence(C, algol)
 
-
 # Pascal
 pascal = add_language("Pascal", datetime(1970,1,1))
+add_typing(pascal, static)
+add_typing(pascal, strong)
+add_typing(pascal, safe)
+add_paradigm(pascal, imp)
+add_paradigm(pascal, struct)
+
 
 add_designer(pascal, nwirth, 1)
 
@@ -449,7 +487,11 @@ add_influence(pascal, algol)
 
 # CPL
 cpl = add_language("CPL", datetime(1963,1,1))
-# TODO
+add_designer(cpl, chstrachey, 1)
+add_paradigm(cpl, imp)
+add_paradigm(cpl, struct)
+add_paradigm(cpl, proc)
+add_paradigm(cpl, fp)
 
 add_influence(cpl, algol)
 
