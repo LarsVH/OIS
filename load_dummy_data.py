@@ -7,6 +7,7 @@ from datetime import datetime
 # Helper functions
 def add(obj):
     db.session.add(obj)
+    db.session.flush()
 
 
 def add_institution(name, type):
@@ -16,6 +17,9 @@ def add_institution(name, type):
 
 
 def add_language(name, date, dialect_of=None):
+    if dialect_of:
+        dialect_of = dialect_of.id
+
     lang = ProgrammingLanguage(name, date, dialect_of)
     add(lang)
     return lang
@@ -39,10 +43,12 @@ def add_designer(lang, designer, version):
         association = DesignedByPerson(version=version)
         association.designer = designer
         lang.designers.append(association)
+        add(association)
     else:
         association = DesignedByInstitution(version=version)
         association.designer = designer
         lang.institutions.append(association)
+        add(association)
 
 
 def create_typing(name):
@@ -77,6 +83,7 @@ def add_graduation(person, institution, year):
     association = Graduation(year=year)
     association.institution = institution
     person.graduations.append(association)
+    add(association)
 
 
 def add_award(person, name, year):
@@ -116,12 +123,12 @@ def add_imp_designer(implementation, designer, version):
     if type(designer) == Person:
         association = ImplementationVersionDesignedBy(
             version=version, implementation_id=implementation.id,
-            person_id=designers.id)
+            person_id=designer.id)
         add(association)
     else:
         association = ImplementationVersionDesignedByInst(
             version=version, implementation_id=implementation.id,
-            institution_id=designers.id)
+            institution_id=designer.id)
         add(association)
 
 
@@ -142,14 +149,14 @@ regensburg_d = add_town("Regensburg", "Bayern", "Germany", 93001)
 weinfelden_ch = add_town("Weinfelden", "Thurgau", "Switzerland", 8570)
 strasbourg_f = add_town("Strasbourg", "Alsace-Lorraine", "France", 67482)
 philadelphia_usa = add_town("Philadelphia", "Pennsylvania", "USA", 19100)
-pittsburgh_usa = add_town("Pittsburgh", "Pennsylvania", 15100)
+pittsburgh_usa = add_town("Pittsburgh", "Pennsylvania", "USA", 15100)
 frederiksberg_dk = add_town("Frederiksberg", "Seeland" ,"Denmark", 0)
 rotterdam_nl = add_town("Rotterdam","Zuid-Holland" ,"Netherlands", 3000)
-boston_usa = add_town("Boston", "Massachusetts", 0200)
+boston_usa = add_town("Boston", "Massachusetts", "USA", 0200)
 winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
 kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
-calgary_ca = add_town("Calgary", "Alberta", "Canada")
+calgary_ca = add_town("Calgary", "Alberta", "Canada", "T1Y")
 
 # Persons
 dritchie = add_person("Dennis", "Ritchie")
@@ -174,7 +181,7 @@ hbottenbruch.birthday = datetime(1928, 9, 14)
 hrutishauser = add_person("Heinz", "Rutishauser")
 hrutishauser.sex = 'male'
 hrutishauser.nationality = "Swiss"
-hrutishauser.birthday = datetime(1918, 1, 90)
+hrutishauser.birthday = datetime(1918, 1, 9)
 hrutishauser.birthplace = weinfelden_ch
 hrutishauser.deathday = datetime(1970, 11, 10)
 
@@ -195,7 +202,7 @@ jbackus.deathday = datetime(2007,3,17)
 chkatz = add_person("Charles", "Katz")
 chkatz.sex = 'male'
 chkatz.nationality = "American"
-chkatz.birthday = datetime(1927) # month/year unknown
+chkatz.birthday = datetime(1927, 1, 1) # month/year unknown
 chkatz.birthplace = philadelphia_usa
 
 aperlis = add_person("Alan", "Perlis")
@@ -290,7 +297,7 @@ lmumunchen = add_institution("Ludwig-Maximilians-Universitat", 'academic')
 coluniversity = add_institution("Columbia University", 'academic')
 templeuniversityphil = add_institution("Temple University Philadelphia", 'academic')
 upennsylvania = add_institution("University of Pennsylvania", 'academic')
-carnegiemellon = add_institution("Carnegie Mellon University Pennsylvania")
+carnegiemellon = add_institution("Carnegie Mellon University Pennsylvania", 'academic')
 mit = add_institution("MIT", 'academic')
 carnit = add_institution("Carnegie Institute of Technology", 'academic')
 yale = add_institution("Yale University", 'academic')

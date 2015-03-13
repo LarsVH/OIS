@@ -91,20 +91,22 @@ class Person(db.Model):
 
 class DesignedByPerson(db.Model):
     __tablename__ = 'DesignedByPerson'
+    id = db.Column(db.Integer, primary_key=True)
     pl_id = db.Column(
-        db.Integer, db.ForeignKey('ProgrammingLanguage.id'), primary_key=True)
+        db.Integer, db.ForeignKey('ProgrammingLanguage.id'))
     person_id = db.Column(
-        db.Integer, db.ForeignKey('Person.id'), primary_key=True)
+        db.Integer, db.ForeignKey('Person.id'))
     version = db.Column(db.Integer)
     designer = db.relationship("Person", backref="has_designed")
 
 
 class DesignedByInstitution(db.Model):
     __tablename__ = 'DesignedByInstitution'
+    id = db.Column(db.Integer, primary_key=True)
     pl_id = db.Column(
-        db.Integer, db.ForeignKey('ProgrammingLanguage.id'), primary_key=True)
+        db.Integer, db.ForeignKey('ProgrammingLanguage.id'))
     institution_id = db.Column(
-        db.Integer, db.ForeignKey('Institution.id'), primary_key=True)
+        db.Integer, db.ForeignKey('Institution.id'))
     version = db.Column(db.Integer)
     designer = db.relationship("Institution", backref="has_designed")
 
@@ -137,9 +139,10 @@ class Graduation(db.Model):
 # TODO: relationship met Person toevoegen
 class Award(db.Model):
     __tablename__ = "Award"
-    name = db.Column(db.String(256), primary_key=True)
-    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"), primary_key=True)
-    year = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256))
+    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
+    year = db.Column(db.Integer)
 
     def __init__(self, name, person, year):
         self.name = name
@@ -180,9 +183,10 @@ class Implementation(db.Model):
 # TODO: relationship met Person/Institution toevoegen?
 class Employment(db.Model):
     __tablename__ = "Employment"
-    institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"), primary_key=True)
-    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"), primary_key=True)
-    year = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"))
+    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
+    year = db.Column(db.Integer)
 
     def __init__(self, institution_id, person_id, year):
         self.institution_id = institution_id
@@ -233,14 +237,16 @@ class Address(db.Model):
 # TODO: Relationship met Implementation/Person toevoegen?
 class ImplementationVersionDesignedBy(db.Model):
     __tablename__ = "ImplementationVersionDesignedBy"
-    implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"), primary_key=True)
-    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"), primary_key=True)
-    version = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"))
+    person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
+    version = db.Column(db.Integer)
 
 
 # TODO: Relationship met Implementation/Institution toevoegen?
 class ImplementationVersionDesignedByInst(db.Model):
     __tablename__ = "ImplementationVersionDesignedByInst"
-    implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"), primary_key=True)
-    institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"), primary_key=True)
-    version = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"))
+    institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"))
+    version = db.Column(db.Integer)
