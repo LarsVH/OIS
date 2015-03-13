@@ -157,8 +157,8 @@ winterthur_ch = add_town("Winterthur", "Zurich", "Switzerland", 8400)
 kobenhavn_dk = add_town("Kobenhavn", "Hovedstaden", "Denmark", 1000)
 hampstead_uk = add_town("Hampstead", "London", "UK", 020) # Postal code incorrect
 calgary_ca = add_town("Calgary", "Alberta", "Canada", "T1Y")
-haarlem_nl = add_town("Haarlem", "Noord-Holland", 2000)
-nyc_usa = add_town("New York City", "New York", 10000)
+haarlem_nl = add_town("Haarlem", "Noord-Holland", "The Netherlands", 2000)
+nyc_usa = add_town("New York City", "New York", "USA", 10000)
 
 # Persons
 dritchie = add_person("Dennis", "Ritchie")
