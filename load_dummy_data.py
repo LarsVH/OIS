@@ -1,6 +1,6 @@
 import os
 from db import db, init_db
-from datetime import datetime
+from datetime import datetime as dt
 from load_data_helpers import *
 
 
@@ -11,6 +11,10 @@ except:
     pass
 
 init_db()
+
+
+def datetime(y,m,d):
+    return dt.date(dt(y,m,d))
 
 
 # Towns
