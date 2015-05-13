@@ -1,4 +1,4 @@
-from db import db
+from db import db, schema_name
 
 
 # http://stackoverflow.com/a/5652169/2787432
@@ -22,6 +22,8 @@ HasTypingDiscipline = db.Table(
 
 class Institution(db.Model):
     __tablename__ = "Institution"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
     type = db.Column(db.Enum('academic', 'commercial', 'public', name='institution_type'))
@@ -33,6 +35,7 @@ class Institution(db.Model):
 
 class ProgrammingLanguage(db.Model):
     __tablename__ = "ProgrammingLanguage"
+    __schema__ = schema_name
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
@@ -64,6 +67,7 @@ class ProgrammingLanguage(db.Model):
 
 class Person(db.Model):
     __tablename__ = "Person"
+    __schema__ = schema_name
 
     id = db.Column(db.Integer, primary_key=True)
     birthday = db.Column(db.Date)
@@ -91,6 +95,8 @@ class Person(db.Model):
 
 class DesignedByPerson(db.Model):
     __tablename__ = 'DesignedByPerson'
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     pl_id = db.Column(
         db.Integer, db.ForeignKey('ProgrammingLanguage.id'))
@@ -102,6 +108,8 @@ class DesignedByPerson(db.Model):
 
 class DesignedByInstitution(db.Model):
     __tablename__ = 'DesignedByInstitution'
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     pl_id = db.Column(
         db.Integer, db.ForeignKey('ProgrammingLanguage.id'))
@@ -114,6 +122,8 @@ class DesignedByInstitution(db.Model):
 # Merged with TownInStateOfCountry
 class Town(db.Model):
     __tablename__ = "Town"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
     postal_code = db.Column(db.String(256))
@@ -128,6 +138,8 @@ class Town(db.Model):
 
 class Graduation(db.Model):
     __tablename__ = 'Graduation'
+    __schema__ = schema_name
+
     person_id = db.Column(
         db.Integer, db.ForeignKey('Person.id'), primary_key=True)
     institution_id = db.Column(
@@ -139,6 +151,8 @@ class Graduation(db.Model):
 # TODO: relationship met Person toevoegen
 class Award(db.Model):
     __tablename__ = "Award"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
@@ -152,6 +166,8 @@ class Award(db.Model):
 
 class Paradigm(db.Model):
     __tablename__ = "Paradigm"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
 
@@ -161,6 +177,8 @@ class Paradigm(db.Model):
 
 class TypingDiscipline(db.Model):
     __tablename__ = "TypingDiscipline"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
 
@@ -171,6 +189,8 @@ class TypingDiscipline(db.Model):
 # TODO: relationship met ProgrammingLanguage toevoegen?
 class Implementation(db.Model):
     __tablename__ = "Implementation"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
     pl_id = db.Column(db.Integer, db.ForeignKey("ProgrammingLanguage.id"))
@@ -183,6 +203,8 @@ class Implementation(db.Model):
 # TODO: relationship met Person/Institution toevoegen?
 class Employment(db.Model):
     __tablename__ = "Employment"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"))
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
@@ -197,6 +219,8 @@ class Employment(db.Model):
 # TODO: Relationship met Person toevoegen?
 class PhoneNumber(db.Model):
     __tablename__ = "PhoneNumber"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
     number = db.Column(db.String(256))
@@ -209,6 +233,8 @@ class PhoneNumber(db.Model):
 # TODO: Relationship met Person toevoegen?
 class EmailAddress(db.Model):
     __tablename__ = "EmailAddress"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
     emailaddress = db.Column(db.String(256))
@@ -221,6 +247,8 @@ class EmailAddress(db.Model):
 # TODO: Relationship met Person toevoegen?
 class Address(db.Model):
     __tablename__ = "Address"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
     town_id = db.Column(db.Integer, db.ForeignKey("Town.id"))
@@ -237,6 +265,8 @@ class Address(db.Model):
 # TODO: Relationship met Implementation/Person toevoegen?
 class ImplementationVersionDesignedBy(db.Model):
     __tablename__ = "ImplementationVersionDesignedBy"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"))
     person_id = db.Column(db.Integer, db.ForeignKey("Person.id"))
@@ -246,6 +276,8 @@ class ImplementationVersionDesignedBy(db.Model):
 # TODO: Relationship met Implementation/Institution toevoegen?
 class ImplementationVersionDesignedByInst(db.Model):
     __tablename__ = "ImplementationVersionDesignedByInst"
+    __schema__ = schema_name
+
     id = db.Column(db.Integer, primary_key=True)
     implementation_id = db.Column(db.Integer, db.ForeignKey("Implementation.id"))
     institution_id = db.Column(db.Integer, db.ForeignKey("Institution.id"))
