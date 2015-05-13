@@ -13,9 +13,6 @@ except:
 init_db()
 
 
-
-
-
 # Towns
 regensburg_d = add_town("Regensburg", "Bayern", "Germany", 93001)
 weinfelden_ch = add_town("Weinfelden", "Thurgau", "Switzerland", 8570)

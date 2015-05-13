@@ -75,7 +75,8 @@ class Person(db.Model):
     lastname = db.Column(db.String(256))
     nationality = db.Column(db.String(256))
     deathday = db.Column(db.Date)
-    sex = db.Column(db.Enum('male', 'female', name='sex'))
+    #sex = db.Column(db.Enum('male', 'female', name='sex'))
+    sex = db.Column(db.String(6))
 
     birthplace_id = db.Column(db.Integer, db.ForeignKey('Town.id'))
     birthplace = db.relationship("Town")
