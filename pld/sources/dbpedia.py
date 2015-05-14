@@ -1,3 +1,4 @@
+import time
 from SPARQLWrapper import SPARQLWrapper, JSON
 from pld.models import *
 
@@ -10,6 +11,27 @@ PREFIX dbres: <http://dbpedia.org/resource/>
 _lang_map = {}
 _para_map = {}
 _type_map = {}
+
+
+def create_limiter(func, limit):
+    create_limiter.last = int(time.time())
+    create_limiter.hits = 0
+
+    def wrapped():
+        current = int(time.time())
+        if (current - create_limiter.last) > 1:
+            create_limiter.last = current
+            create_limiter.hits = 0
+        if create_limiter.hits > limit:
+            time.sleep(1)
+            return wrapped()
+        create_limiter.hits += 1
+        return func()
+    return wrapped
+
+
+sparql.query = create_limiter(sparql.query, 10)
+
 
 def _perform_query(q):
     sparql.setQuery(preamble+q)
