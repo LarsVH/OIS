@@ -59,7 +59,7 @@ class ProgrammingLanguage(db.Model):
     paradigms = db.relationship("Paradigm", secondary=FollowsParadigm)
     disciplines = db.relationship("TypingDiscipline", secondary=HasTypingDiscipline)
 
-    def __init__(self, name, date, dialect_of=None):
+    def __init__(self, name, date=None, dialect_of=None):
         self.name = name
         self.date = date
 

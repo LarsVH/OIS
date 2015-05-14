@@ -18,7 +18,7 @@ def add_language(name, date, dialect_of=None):
     if dialect_of:
         dialect_of = dialect_of.id
 
-    lang = ProgrammingLanguage(name, date, dialect_of)
+    lang = ProgrammingLanguage(name, dialect_of, date=date)
     add(lang)
     return lang
 
