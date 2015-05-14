@@ -1,11 +1,11 @@
-from app import app
+from pld.app import app
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
 # TODO: Config file
 db_backend = 'mysql'
 db = None
-schema_name = ''
+schema_name = None
 
 
 if db_backend == 'virtuoso':
@@ -28,17 +28,17 @@ db.schema = schema_name
 
 
 def create_tables():
-    import models
+    import pld.models
     db.create_all()
 
 
 def drop_tables():
-    import models
+    import pld.models
     db.drop_all()
 
 
 def clear_tables():
-    import models
+    import pld.models
     con = db.engine.connect()
     trans = con.begin()
     tables = db.metadata.sorted_tables
@@ -47,7 +47,6 @@ def clear_tables():
         # TODO: test for virtuoso/sqlite
         con.execute("SET foreign_key_checks = 0;")
         for table in tables:
-            print table
             con.execute(table.delete())
         con.execute("SET foreign_key_checks = 1;")
     except Exception:

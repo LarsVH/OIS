@@ -1,4 +1,4 @@
-from db import db, schema_name
+from pld.db import db, schema_name
 
 
 # http://stackoverflow.com/a/5652169/2787432

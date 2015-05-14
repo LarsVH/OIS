@@ -1,16 +1,16 @@
 import os
-from db import *
 from datetime import datetime as dt
-from load_data_helpers import *
+from pld.db import *
+from pld.load_data_helpers import *
 
 
 try:
     os.remove("/tmp/test.db")
+    drop_tables()
 except Exception:
     pass
 
 
-drop_tables()
 create_tables()
 
 
