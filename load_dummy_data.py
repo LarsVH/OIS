@@ -1,16 +1,17 @@
 import os
-from db import db, init_db
+from db import *
 from datetime import datetime as dt
 from load_data_helpers import *
 
 
-# And code
 try:
     os.remove("/tmp/test.db")
-except:
+except Exception:
     pass
 
-init_db()
+
+drop_tables()
+create_tables()
 
 
 def datetime(y,m,d):
