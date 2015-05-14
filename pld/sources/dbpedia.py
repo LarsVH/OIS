@@ -29,15 +29,15 @@ def _get_langauges():
     return results
 
 
-def _get_influences(language):
+def _get_influences(uri, obj):
     query = """SELECT ?y WHERE {
  <%s> dbpedia-owl:influencedBy ?y.
  }
-""" % language['uri']
+""" % uri
     raw = _perform_query(query)
     uris = map(lambda e: e['y']['value'], raw)
     objs = map(_lang_map.get, uris)
-    language['influences'] = objs
+    obj.influences = objs
 
 
 def _get_label(uri):
@@ -100,8 +100,8 @@ def import_source():
     lang_objects = map(_get_language_object, langs)
     #print _lang_map
     #print _para_map
-    for obj in lang_objects:
-        _get_influences(obj)
+    for uri, obj in _lang_map.iteritems():
+        _get_influences(uri, obj)
     for obj in lang_objects:
         db.session.add(obj)
     db.session.commit()
