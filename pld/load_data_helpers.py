@@ -1,5 +1,5 @@
 from pld.models import *
-from pld.db import db
+from pld.app import db
 
 
 # Helper functions

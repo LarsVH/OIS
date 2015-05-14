@@ -1,30 +1,4 @@
-from pld.app import app
-from flask.ext.sqlalchemy import SQLAlchemy
-
-
-# TODO: Config file
-db_backend = 'mysql'
-db = None
-schema_name = None
-
-
-if db_backend == 'virtuoso':
-    # TODO: SFW wachtwoord voor deliverable
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'virtuoso://dba:ditishetwachtwoordkut@VOS'
-    db = SQLAlchemy(app)
-    schema_name = 'pld.pld'
-elif db_backend == 'mysql':
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % ('root', '', '127.0.0.1', 'ois')
-    db = SQLAlchemy(app)
-elif db_backend == 'sqlite':
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-    db = SQLAlchemy(app)
-else:
-    raise Exception("Incorrect database backend")
-
-
-db.metadata.schema = schema_name
-db.schema = schema_name
+from pld.app import db
 
 
 def create_tables():

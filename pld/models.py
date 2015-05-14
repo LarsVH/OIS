@@ -1,5 +1,7 @@
-from pld.db import db, schema_name
+from pld.app import db
+from pld.config import Config
 
+schema_name = Config.schema_name
 
 # http://stackoverflow.com/a/5652169/2787432
 Influence = db.Table(
@@ -63,6 +65,14 @@ class ProgrammingLanguage(db.Model):
 
         if dialect_of:
             self.dialect_of = dialect_of
+
+    def to_dict(self):
+        d = dict()
+        d['id'] = self.id
+        d['name'] = self.name
+        d['influences'] = map(lambda pl: pl.id, self.influenced_by)
+        d['influenced'] = map(lambda pl: pl.id, self.has_influenced)
+        return d
 
 
 class Person(db.Model):

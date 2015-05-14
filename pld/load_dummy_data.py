@@ -1,5 +1,6 @@
 import os
 from datetime import datetime as dt
+from pld.app import db
 from pld.db import *
 from pld.load_data_helpers import *
 
