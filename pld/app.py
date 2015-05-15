@@ -13,10 +13,24 @@ db.schema = Config.schema_name
 from pld.models import *
 
 
-database = Database(db=3)
-ac = database.autocomplete()
-for pl in ProgrammingLanguage.query.all():
-    ac.store(pl.name)
+database = None
+ac = None
+
+
+@app.before_first_request
+def init_autocompletion():
+    print "Initializing autocomplete data..."
+    global ac
+    global database
+    database = Database(db=3)
+    ac = database.autocomplete()
+    for pl in ProgrammingLanguage.query.all():
+        metadata = {
+            'name':pl.name,
+            'id':pl.id}
+        ac.store(
+            pl.name,
+            data=metadata)
 
 
 @app.route('/')
@@ -42,4 +56,4 @@ def get_language(lang_id):
 
 @app.route('/api/languages/predict/<str>')
 def predict(str):
-    return json.dumps(ac.search(str))
+    return json.dumps(ac.search(str, limit=10))
