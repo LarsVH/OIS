@@ -44,7 +44,6 @@ def _get_langauges():
     query = """SELECT ?y WHERE {
  ?y rdf:type dbpedia-owl:ProgrammingLanguage.
  }
- limit 10
 """
     raw = _perform_query(query)
     results = map(lambda e: e['y']['value'], raw)
@@ -59,7 +58,8 @@ def _get_influences(uri, obj):
     raw = _perform_query(query)
     uris = map(lambda e: e['y']['value'], raw)
     objs = map(_lang_map.get, uris)
-    obj.influences = objs
+    # TODO: misschien moet dit een merge zijn
+    obj.influenced_by = objs
 
 
 def _get_label(uri):
@@ -67,10 +67,11 @@ def _get_label(uri):
     <%s> rdfs:label ?label.
     FILTER(LANG(?label) = "" || LANGMATCHES(LANG(?label), "en"))}"""%uri)
     if len(raw) == 0:
-        print raw
-        raise Exception("_get_label: Error with %s"%uri)
+        print "No label found for %s" % uri
+        return uri
+        #raise Exception("_get_label: Error with %s"%uri)
     name = raw[0]['label']['value']
-    return name
+    return name.encode('utf-8')
 
 
 def _get_paradigms(uri):
@@ -80,7 +81,7 @@ def _get_paradigms(uri):
     FILTER(LANG(?label) = "" || LANGMATCHES(LANG(?label), "en"))}"""%uri)
     paradigms = []
     for para in raw:
-        name = para['label']['value']
+        name = para['label']['value'].encode('utf-8')
         if name in _para_map:
             obj = _para_map[name]
         else:
@@ -97,7 +98,7 @@ def _get_disciplines(uri):
     FILTER(LANG(?label) = "" || LANGMATCHES(LANG(?label), "en"))}"""%uri)
     disciplines = []
     for type in raw:
-        name = type['label']['value']
+        name = type['label']['value'].encode('utf-8')
         if name in _type_map:
             obj = _type_map[name]
         else:
