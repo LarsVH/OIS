@@ -22,13 +22,21 @@ HasTypingDiscipline = db.Table(
     db.Column('td_id', db.Integer, db.ForeignKey('TypingDiscipline.id')))
 
 
+class InstitutionType(object):
+    academic = 'academic'
+    commercial = 'commercial'
+    public = 'public'
+    unknown = 'unknown'
+
+
 class Institution(db.Model):
     __tablename__ = "Institution"
     __schema__ = schema_name
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
-    type = db.Column(db.Enum('academic', 'commercial', 'public', name='institution_type'))
+    #type = db.Column(db.Enum('academic', 'commercial', 'public', name='institution_type'))
+    type = db.Column(db.String(256))
 
     def __init__(self, name, type):
         self.name = name
