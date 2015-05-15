@@ -74,12 +74,23 @@ class ProgrammingLanguage(db.Model):
         if dialect_of:
             self.dialect_of = dialect_of
 
-    def to_dict(self):
+    def to_dict(self, extended=False):
         d = dict()
         d['id'] = self.id
         d['name'] = self.name
         d['influences'] = map(lambda pl: pl.id, self.influenced_by)
         d['influenced'] = map(lambda pl: pl.id, self.has_influenced)
+        if extended:
+            des = []
+            for x in self.designers:
+                p = x.designer
+                des.append({'type':'person', 'firstname':p.firstname, 'lastname':p.lastname})
+            for x in self.institutions:
+                i = x.designer
+                des.append({'type':'institution', 'name':i.name})
+            d['designers'] = des
+            d['paradigms'] = map(lambda p: p.name, self.paradigms)
+            d['disciplines'] = map(lambda p: p.name, self.disciplines)
         return d
 
 
