@@ -43,6 +43,7 @@ def _perform_query(q):
 def _get_langauges():
     query = """SELECT ?y WHERE {
  ?y rdf:type dbpedia-owl:ProgrammingLanguage.
+ FILTER (EXISTS {?y dbpprop:paradigm ?x})
  }
 """
     raw = _perform_query(query)
