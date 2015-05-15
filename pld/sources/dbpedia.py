@@ -30,7 +30,7 @@ def create_limiter(func, limit):
     return wrapped
 
 
-sparql.query = create_limiter(sparql.query, 10)
+sparql.query = create_limiter(sparql.query, 25)
 
 
 def _perform_query(q):
@@ -56,8 +56,9 @@ def _get_influences(uri, obj):
  }
 """ % uri
     raw = _perform_query(query)
-    uris = map(lambda e: e['y']['value'], raw)
+    uris = map(lambda e: e['y']['value'].encode('utf-8'), raw)
     objs = map(_lang_map.get, uris)
+    objs = filter(lambda e: True if e else False, objs)
     # TODO: misschien moet dit een merge zijn
     obj.influenced_by = objs
 
