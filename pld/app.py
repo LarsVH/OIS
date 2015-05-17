@@ -2,6 +2,7 @@ import json
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from pld.config import Config
+from Queue import Queue
 from walrus import Database
 
 app = Flask(__name__)
@@ -53,6 +54,30 @@ def get_language(lang_id):
         # TODO: Valid error message
         return "Error"
 
+
+@app.route('/api/languages/<int:lang_id>/<int:depth>')
+def get_language_graph(lang_id, depth):
+    lang = ProgrammingLanguage.query.filter(ProgrammingLanguage.id==lang_id).first()
+    if not lang:
+        # TODO: Valid error message
+        return "Error"
+    if not depth >= 1:
+        return "Depth must be >= 1"
+    ids = set()
+    languages = []
+    queue = Queue()
+    queue.put((depth, lang))
+    while not queue.empty():
+        d, l = queue.get()
+        if d < 0:
+            continue
+        if l.id in ids:
+            continue
+        languages.append(l)
+        ids.add(l.id)
+        for lang in l.influenced_by:
+            queue.put((d-1, lang))
+    return json.dumps(map(lambda pl: pl.to_dict(), languages))
 
 @app.route('/api/languages/predict/<str>')
 def predict(str):
