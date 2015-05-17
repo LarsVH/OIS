@@ -78,8 +78,10 @@ class ProgrammingLanguage(db.Model):
         d = dict()
         d['id'] = self.id
         d['name'] = self.name
-        d['influences'] = map(lambda pl: pl.id, self.influenced_by)
-        d['influenced'] = map(lambda pl: pl.id, self.has_influenced)
+        d['influences'] = map(lambda pl: {'id': pl.id, 'name':pl.name},
+                              self.influenced_by)
+        d['influenced'] = map(lambda pl: {'id': pl.id, 'name':pl.name},
+                              self.has_influenced)
         if extended:
             des = []
             for x in self.designers:
