@@ -79,6 +79,40 @@ def get_language_graph(lang_id, depth):
             queue.put((d-1, lang))
     return json.dumps(map(lambda pl: pl.to_dict(), languages))
 
+
 @app.route('/api/languages/predict/<str>')
 def predict(str):
     return json.dumps(ac.search(str, limit=10))
+
+
+@app.route('/api/designer/all')
+def get_designers():
+    l1 = map(lambda p: p.to_dict(), Person.query.all())
+    l2 = map(lambda p: p.to_dict(), Institution.query.all())
+    return json.dumps(l1+l2)
+
+
+@app.route('/api/designer/person/<int:id>')
+def get_person(id):
+    def helper(dbp):
+        pl = ProgrammingLanguage.query.filter(ProgrammingLanguage.id == dbp.pl_id).first()
+        return pl.to_dict()
+    person = Person.query.filter(Person.id == id).first()
+    if not person:
+        # TODO: Valid error message
+        return "Error"
+    langs = map(helper, person.has_designed)
+    return json.dumps(langs)
+
+
+@app.route('/api/designer/institution/<int:id>')
+def get_institution(id):
+    def helper(dbp):
+        pl = ProgrammingLanguage.query.filter(ProgrammingLanguage.id == dbp.pl_id).first()
+        return pl.to_dict()
+    institution = Institution.query.filter(Institution.id == id).first()
+    if not institution:
+        # TODO: Valid error message
+        return "Error"
+    langs = map(helper, institution.has_designed)
+    return json.dumps(langs)

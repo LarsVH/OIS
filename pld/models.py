@@ -42,6 +42,11 @@ class Institution(db.Model):
         self.name = name
         self.type = type
 
+    def to_dict(self):
+        return {'id': self.id,
+                'type': 'institution',
+                'name': self.name}
+
 
 class ProgrammingLanguage(db.Model):
     __tablename__ = "ProgrammingLanguage"
@@ -123,6 +128,11 @@ class Person(db.Model):
     def __init__(self, firstname, lastname):
         self.firstname = firstname
         self.lastname = lastname
+
+    def to_dict(self):
+        return {'id': self.id,
+                'type': 'person',
+                'name': self.firstname + " " + self.lastname}
 
 
 class DesignedByPerson(db.Model):
