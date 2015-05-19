@@ -80,8 +80,10 @@ def _get_place(uri):
     OPTIONAL {{ <{0}> dbpedia-owl:postalCode ?pc }}
     }}""".format(uri)
     raw = _perform_query(query)[0]
-    country_name = _get_label(raw['country']['value'])
-    p = Town(raw['name']['value'].encode('utf-8'), "", country_name)
+    p = Town(None, None, None)
+    if 'country' in raw:
+        p.country = _get_label(raw['country']['value'])
+    p.name = raw['name']['value'].encode('utf-8')
     _place_map[uri] = p
     return p
 
