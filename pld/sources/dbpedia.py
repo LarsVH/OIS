@@ -1,21 +1,22 @@
 import re
 import time
+from datetime import datetime, date
 from SPARQLWrapper import SPARQLWrapper, JSON
 from pld.models import *
 
 
+# TODO: str.format() instead of str % ...
+
+
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-preamble = """PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
-PREFIX dbpprop: <http://dbpedia.org/property/>
-PREFIX dbres: <http://dbpedia.org/resource/>
-PREFIX schema: <http://schema.org/>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+preamble = """
 """
 _lang_map = {}
 _para_map = {}
 _type_map = {}
 _pers_map = {}
 _inst_map = {}
+_place_map = {}
 
 
 def create_limiter(func, limit):
@@ -65,21 +66,52 @@ def _get_name_from_uri(uri):
     return parts[0], " ".join(parts[1:])
 
 
+def _get_place(uri):
+    # TODO: states
+    if uri in _place_map:
+        return _place_map[uri]
+    query = """SELECT * WHERE {{
+    <{0}> rdfs:label ?name.
+    FILTER(LANG(?name) = "" || LANGMATCHES(LANG(?name), "en"))
+    OPTIONAL {{ <{0}> dbpedia-owl:country ?country }}
+    OPTIONAL {{ <{0}> dbpedia-owl:postalCode ?pc }}
+    }}""".format(uri)
+    raw = _perform_query(query)[0]
+    country_name = _get_label(raw['country']['value'])
+    p = Town(raw['name']['value'].encode('utf-8'), "", country_name)
+    _place_map[uri] = p
+    return p
+
+
 def _get_person(uri):
-    # TODO: location of birth
-    # TODO: dates
     if uri in _pers_map:
         return _pers_map[uri]
-    query = """SELECT ?gn,?sn WHERE {
-    <%s> foaf:givenName ?gn.
-    <%s> foaf:surname ?sn.}""" % (uri, uri)
-    raw = _perform_query(query)
-    if len(raw) == 0:
-        gn, sn = _get_name_from_uri(uri)
+    query = """SELECT * WHERE {{
+    OPTIONAL {{ <{0}> foaf:givenName ?gn }}
+    OPTIONAL {{ <{0}> foaf:surname ?sn }}
+    OPTIONAL {{ <{0}> dbpedia-owl:birthDate ?bd }}
+    OPTIONAL {{ <{0}> dbpedia-owl:deathDate ?dd }}
+    OPTIONAL {{ <{0}> dbpprop:nationality ?nat }}
+    OPTIONAL {{ <{0}> dbpedia-owl:birthPlace ?bp }}}}""".format(uri)
+    raw = _perform_query(query)[0]
+    if 'gn' in raw and 'sn' in raw:
+        gn = raw['gn']['value'].encode('utf-8')
+        sn = raw['sn']['value'].encode('utf-8')
     else:
-        gn = raw[0]['gn']['value'].encode('utf-8')
-        sn = raw[0]['sn']['value'].encode('utf-8')
+        gn, sn = _get_name_from_uri(uri)
     person = Person(gn, sn)
+    if 'bd' in raw:
+        date_str = raw['bd']['value']
+        date = datetime.strptime(date_str, '%Y-%m-%d+%H:%M').date()
+        person.birthday = date
+    if 'dd' in raw:
+        date_str = raw['dd']['value']
+        date = datetime.strptime(date_str, '%Y-%m-%d+%H:%M').date()
+        person.deathday = date
+    if 'nat' in raw:
+        person.nationality = raw['nat']['value']
+    if 'bp' in raw:
+        person.birthplace = _get_place(raw['bp']['value'])
     _pers_map[uri] = person
     return person
 
