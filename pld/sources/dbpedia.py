@@ -9,8 +9,11 @@ from pld.models import *
 
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-preamble = """
-"""
+preamble = """PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+PREFIX schema: <http://schema.org/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>"""
 _lang_map = {}
 _para_map = {}
 _type_map = {}
