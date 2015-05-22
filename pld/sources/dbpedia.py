@@ -63,6 +63,7 @@ def _get_label(uri):
 
 def _get_name_from_uri(uri):
     # Hacks
+    # TODO: fix wrong splitting
     last = uri.split("/")[-1].replace("_", " ")
     full = re.sub(" \(.+\)", "", last)
     parts = full.split(" ")
